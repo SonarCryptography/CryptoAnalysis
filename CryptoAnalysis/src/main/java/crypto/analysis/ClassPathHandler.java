@@ -11,6 +11,7 @@ package crypto.analysis;
 
 import crypto.exceptions.CryptoAnalysisException;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -31,6 +32,7 @@ public class ClassPathHandler {
         String[] paths = additionalClassPath.split(File.pathSeparator);
         Collection<URL> urls =
                 Arrays.stream(paths)
+                        .filter(p -> !p.isBlank())
                         .map(
                                 p -> {
                                     try {
@@ -44,7 +46,7 @@ public class ClassPathHandler {
                         .toList();
 
         classLoader =
-                new URLClassLoader(urls.toArray(new URL[0]), ClassLoader.getSystemClassLoader());
+                new URLClassLoader(urls.toArray(new URL[0]), ClassLoader.getPlatformClassLoader());
     }
 
     public static URLClassLoader getClassLoader() {
@@ -56,6 +58,13 @@ public class ClassPathHandler {
     }
 
     public static void reset() {
+        if (classLoader != null) {
+            try {
+                classLoader.close();
+            } catch (IOException e) {
+                throw new CryptoAnalysisException("Error while closing the class loader", e);
+            }
+        }
         classLoader = null;
     }
 }
