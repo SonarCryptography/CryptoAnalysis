@@ -44,6 +44,9 @@ public abstract class IAnalysisSeed implements IPredicateCheckListener {
 
     protected final Multimap<Statement, EnsuredPredicate> ensuredPredicates;
     protected final Multimap<Statement, UnEnsuredPredicate> unEnsuredPredicates;
+    
+    // Keep this package private to enable direct access in the derived classes
+    final Multimap<Statement, Integer> relevantStatements = HashMultimap.create();
 
     private final Statement initialStatement;
     private final Val fact;
@@ -137,6 +140,14 @@ public abstract class IAnalysisSeed implements IPredicateCheckListener {
 
     public CryptoScanner getScanner() {
         return scanner;
+    }
+    
+    /**
+     * Exposes the relevant statements allowing to generate the execution flow.
+     */
+    @SuppressWarnings("unused")
+    public Multimap<Statement, Integer> getRelevantStatements() {
+        return relevantStatements;
     }
 
     public void registerExpectedPredicate(ExpectedPredicate expectedPredicate) {

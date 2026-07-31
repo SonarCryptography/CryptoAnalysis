@@ -59,7 +59,6 @@ public class AnalysisSeedWithSpecification extends IAnalysisSeed {
     private boolean internalConstraintsSatisfied;
 
     private final Collection<Statement> allCallsOnObject;
-    private final Multimap<Statement, Integer> relevantStatements = HashMultimap.create();
     private final Collection<AbstractPredicate> indirectlyEnsuredPredicates = new HashSet<>();
 
     public AnalysisSeedWithSpecification(

@@ -13,8 +13,6 @@ import boomerang.results.ForwardBoomerangResults;
 import boomerang.scope.InvokeExpr;
 import boomerang.scope.Statement;
 import boomerang.scope.Val;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import crypto.predicates.AbstractPredicate;
 import crypto.predicates.EnsuredPredicate;
 import crypto.predicates.ExpectedPredicate;
@@ -26,7 +24,6 @@ import typestate.TransitionFunction;
 
 public class AnalysisSeedWithEnsuredPredicate extends IAnalysisSeed {
 
-    private final Multimap<Statement, Integer> relevantStatements;
     private final Collection<AbstractPredicate> predicatesToPropagate;
 
     public AnalysisSeedWithEnsuredPredicate(
@@ -36,7 +33,6 @@ public class AnalysisSeedWithEnsuredPredicate extends IAnalysisSeed {
             ForwardBoomerangResults<TransitionFunction> results) {
         super(scanner, statement, fact, results);
 
-        relevantStatements = HashMultimap.create();
         predicatesToPropagate = new HashSet<>();
     }
 
